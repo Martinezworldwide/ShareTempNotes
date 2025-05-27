@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Temporary Share Notepad</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #shareLink {
+      display: block;
+      margin-top: 15px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h2>Temporary Share Notepad</h2>
+  <textarea id="note" placeholder="Type your note here..."></textarea><br>
+  <button onclick="share()">Generate Shareable Link</button>
+  <a id="shareLink" href="#" target="_blank"></a>
+
+  <script>
+    // Check for "text" in URL
+    const params = new URLSearchParams(window.location.search);
+    const content = params.get('text');
+    if (content) {
+      document.getElementById('note').value = decodeURIComponent(content);
+    }
+
+    function share() {
+      const noteText = document.getElementById('note').value;
+      const encoded = encodeURIComponent(noteText);
+      const url = `${window.location.origin}${window.location.pathname}?text=${encoded}`;
+      const link = document.getElementById('shareLink');
+      link.href = url;
+      link.innerText = url;
+    }
+  </script>
+</body>
+</html>
